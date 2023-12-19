@@ -1,0 +1,30 @@
+---
+layout: default
+---
+
+<div class="home">
+  {%- if page.title -%}
+    <h1 class="page-heading">{{ page.title }}</h1>
+  {%- endif -%}
+
+  {{ content }}
+
+
+	{%- if site.repos.size > 0 -%}
+	{%- assign repos = site.repos | sort: 'name' -%}
+		<h2 class="repo-list-heading">{{ page.list_title | default: "Repositories" }}</h2>
+		<ul class="repo-list">
+			{%- for repo in repos -%}
+				<li>
+					<h3>
+						<a class="repo-link" href="{{ repo.url }}">
+							{{ repo.name | escape }}
+						</a>
+					</h3>
+					<p>{{ repo.description }}</p>
+				</li>
+			{%- endfor -%}
+		</ul>
+	{%- endif -%}
+
+</div>

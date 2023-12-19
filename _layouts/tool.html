@@ -1,0 +1,11 @@
+---
+layout: default
+---
+
+<article class="tool">
+  <h1>{{ page.name }}</h1>
+  <p><strong>Description:</strong> {{ page.description }}</p>
+
+	{% include tools/{{ page.name }}.html %}
+</article>
+

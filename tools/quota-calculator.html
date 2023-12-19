@@ -1,0 +1,99 @@
+	<div style="display: flex">
+		<form id="inputForm" style="flex: 1; min-width: fit-content;">
+			<label for="input1">Minimum days:</label>
+			<input type="number" id="input1" value=2><br><br>
+
+			<label for="input2">Max days:</label>
+			<input type="number" id="input2" value=1000><br><br>
+
+			<label for="input3">Starting daily:</label>
+			<input type="number" id="input3" value=100><br><br>
+
+			<label for="input4">Daily increase:</label>
+			<input type="number" id="input4" value=30><br><br>
+
+			<label for="input5">Daily increase steepness:</label>
+			<input type="number" id="input5" value=200><br><br>
+
+			<label for="input6">Runs</label>
+			<input type="number" id="input6" value=30><br><br>
+
+			<button type="button" id="generateTableBtn">Generate Table</button>
+		</form>
+
+		<div style="flex: 1" id="tableContainer"></div>
+	</div>
+
+  <script>
+		const increase_steepness = 16;
+		const base_increase = 100;
+		const randomizer_multiplier = 1;
+		const points = [
+				[0, -0.5030289],
+				[0.117235, -0.1301773],
+				[0.8803625, 0.1534421],
+				[1, 0.5030365]
+		];
+
+		function clamp(x, min, max) {
+			return Math.min(Math.max(x, min), max);
+		}
+
+		function randomizer_curve(x, points) {
+			for (let i = 0; i < points.length - 1; i++) {
+				if (points[i][0] <= x && x <= points[i + 1][0]) {
+					const [x0, y0] = points[i];
+					const [x1, y1] = points[i + 1];
+					return y0 + (y1 - y0) * (x - x0) / (x1 - x0);
+				}
+			}
+		}
+
+		function increase_quota(quota, run_count) {
+			random_point = randomizer_curve(Math.random(), points) * randomizer_multiplier + 1;
+			quota_increase = clamp(1 + run_count * (run_count / increase_steepness), 0, 10000);
+			quota_increase = base_increase * quota_increase * random_point;
+			quota = clamp(quota + quota_increase, 0, 1e9);
+			return parseInt(quota);
+		}
+
+		function increase_daily(daily, run_count, daily_inc, daily_inc_steep) {
+			random_point = randomizer_curve(Math.random(), points) * randomizer_multiplier + 1;
+			daily_increase = 1 + run_count * (run_count / daily_inc_steep);
+			daily_increase = daily_inc * daily_increase * random_point;
+			daily = clamp(daily + daily_increase, 0, 1e9);
+			return parseInt(daily);
+		}
+
+    document.getElementById('generateTableBtn').addEventListener('click', function() {
+
+
+			// Parse input
+			const min_days = parseFloat(document.getElementById('input1').value);
+			const max_days = parseFloat(document.getElementById('input2').value);
+			const min_daily = parseFloat(document.getElementById('input3').value);
+			const daily_inc = parseFloat(document.getElementById('input4').value);
+			const daily_inc_steep = parseFloat(document.getElementById('input5').value);
+			const max_runs = parseFloat(document.getElementById('input6').value);
+
+			var run_count = 0;
+			var days = 0;
+			var quota = 130;
+			var daily = min_daily;
+
+      // Create the table
+      const tableContainer = document.getElementById('tableContainer');
+			var tb = '<table id=table1 border="1"><tr><th>Quota</th><th>Daily</th><th>Days</th></tr>';
+
+			for (let i = 0; i < max_runs; i++) {
+				days = clamp(Math.ceil(quota / daily), min_days, max_days);
+				tb += `<tr><td>${quota}</td><td>${daily}</td><td>${days}</td></tr>`;
+				daily = increase_daily(daily, run_count, daily_inc, daily_inc_steep);
+				quota = increase_quota(quota, run_count);
+				run_count += 1;
+			}
+			tb += '</table>'
+      tableContainer.innerHTML = tb;
+			console.log(tableContainer.innerHTML);
+    });
+  </script>
