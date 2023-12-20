@@ -28,9 +28,23 @@ twitter_username:
 github_username:  Lethal-Org
 
 # Build settings
-theme: minima
+
 plugins:
+  - jekyll-remote-theme
   - jekyll-feed
+
+header_pages:
+  - index.md
+  - about.md
+  - tools.md
+  - repos.md
+
+remote_theme: jekyll/minima
+minima:
+  skin: auto
+  social_links:
+    - { platform: github, user_url: "https://github.com/lethal-org" }
+    - { platform: thunderstore, user_url: "https://thunderstore.io/c/lethal-company/p/LethalOrg" }
 
 collections:
   repos:
@@ -40,6 +54,11 @@ collections:
   tools:
     output: true
     permalink: /:collection/:name
+
+  #  - { platform: devto,          user_url: "https://dev.to/jekyll" }
+  #  - { platform: dribbble,       user_url: "https://dribbble.com/jekyll" }
+  #  - { platform: facebook,       user_url: "https://www.facebook.com/jekyll" }
+  #  - { platform: flickr,         user_url: "https://www.flickr.com/photos/jekyll" }
 
 # Exclude from processing.
 # The following items will not be processed, by default.

@@ -1,10 +1,17 @@
+---
+name: quota-calculator
+title: Progressive deadline calculator
+description: A specialized calculator for the Progressive Deadline mod. This tool accurately computes quotas, deadlines, and daily values, saving you the hassle of in-game testing by providing precise calculations at your fingertips.
+layout: tool
+---
+
 	<div style="display: flex">
-		<form id="inputForm" style="flex: 1; min-width: fit-content;">
+		<form id="inputForm" style="flex: 1; min-width: fit-content; padding-right: 15px;">
 			<label for="input1">Minimum days:</label>
 			<input type="number" id="input1" value=2><br><br>
 
 			<label for="input2">Max days:</label>
-			<input type="number" id="input2" value=1000><br><br>
+			<input type="number" id="input2" value=1e9><br><br>
 
 			<label for="input3">Starting daily:</label>
 			<input type="number" id="input3" value=100><br><br>
@@ -16,7 +23,7 @@
 			<input type="number" id="input5" value=200><br><br>
 
 			<label for="input6">Runs</label>
-			<input type="number" id="input6" value=30><br><br>
+			<input type="number" id="input6" value=10><br><br>
 
 			<button type="button" id="generateTableBtn">Generate Table</button>
 		</form>
@@ -67,7 +74,6 @@
 
     document.getElementById('generateTableBtn').addEventListener('click', function() {
 
-
 			// Parse input
 			const min_days = parseFloat(document.getElementById('input1').value);
 			const max_days = parseFloat(document.getElementById('input2').value);
@@ -92,6 +98,7 @@
 				quota = increase_quota(quota, run_count);
 				run_count += 1;
 			}
+
 			tb += '</table>'
       tableContainer.innerHTML = tb;
 			console.log(tableContainer.innerHTML);

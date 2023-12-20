@@ -1,0 +1,24 @@
+---
+title: Tools
+layout: base
+---
+
+<div class="tools">
+  {%- if page.title -%}
+    <h1 class="page-heading">{{ page.title }}</h1>
+  {%- endif -%}
+	{%- assign tools = site.tools | sort: 'name' -%}
+		<h2 class="tool-list-heading">{{ page.list_title | base: "Repositories" }}</h2>
+		<ul class="tool-list">
+			{%- for tool in tools -%}
+				<li>
+					<h3>
+						<a class="tool-link" href="{{ tool.url }}">
+							{{ tool.title | escape }}
+						</a>
+					</h3>
+					<p>{{ tool.description }}</p>
+				</li>
+			{%- endfor -%}
+		</ul>
+</div>

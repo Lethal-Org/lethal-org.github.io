@@ -1,11 +1,10 @@
 ---
-layout: default
+layout: base
 ---
 
 <article class="tool">
-  <h1>{{ page.name }}</h1>
+  <h1>{{ page.title }}</h1>
   <p><strong>Description:</strong> {{ page.description }}</p>
-
-	{% include tools/{{ page.name }}.html %}
+	{{ content }}
 </article>
 
